@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard เป้าร้านค้า ปี 2569</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.js"></script>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F1117;--surface:#181C27;--surface2:#1E2336;--border:#2A2F45;
+  --text:#E8EAF0;--muted:#7A809A;--accent:#4F8EF7;
+  --green:#34D399;--green-bg:rgba(52,211,153,.12);--green-border:rgba(52,211,153,.3);
+  --red:#F87171;--red-bg:rgba(248,113,113,.12);--red-border:rgba(248,113,113,.3);
+  --yellow:#FBBF24;--yellow-bg:rgba(251,191,36,.1);--yellow-border:rgba(251,191,36,.25);
+  --gray-bg:rgba(122,128,154,.1);--gray-border:rgba(122,128,154,.2);
+  --kpt:#4F8EF7;--kpt-soft:rgba(79,142,247,.15);
+  --pam:#A78BFA;--pam-soft:rgba(167,139,250,.15);
+  --r:10px;--r-sm:6px;
+}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:14px}
+/* Layout */
+.shell{display:grid;grid-template-columns:220px 1fr;min-height:100vh}
+.sidebar{background:var(--surface);border-right:1px solid var(--border);padding:24px 0;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh;overflow-y:auto}
+.sidebar-logo{padding:0 20px 20px;border-bottom:1px solid var(--border);margin-bottom:8px}
+.sidebar-logo .logo-mark{font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;margin-bottom:4px}
+.sidebar-logo h1{font-size:15px;font-weight:600;line-height:1.3;color:var(--text)}
+.sidebar-section{padding:8px 20px 4px;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.nav-btn{display:flex;align-items:center;gap:10px;padding:9px 20px;cursor:pointer;border:none;background:none;color:var(--muted);width:100%;text-align:left;font-family:inherit;font-size:13px;transition:all .15s;border-left:2px solid transparent}
+.nav-btn:hover{color:var(--text);background:var(--surface2)}
+.nav-btn.active{color:var(--accent);background:rgba(79,142,247,.08);border-left-color:var(--accent)}
+.nav-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.main{padding:32px;overflow-y:auto;display:flex;flex-direction:column;gap:24px}
+/* Cards */
+.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.kpi{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:18px 20px}
+.kpi-label{font-size:12px;color:var(--muted);margin-bottom:8px}
+.kpi-value{font-size:28px;font-weight:600;font-family:'IBM Plex Mono',monospace;letter-spacing:-.02em;line-height:1}
+.kpi-sub{font-size:12px;color:var(--muted);margin-top:6px}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);padding:20px}
+.card-title{font-size:13px;font-weight:500;color:var(--muted);margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+/* Filters */
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.filter-btn{padding:6px 14px;border:1px solid var(--border);border-radius:20px;background:none;color:var(--muted);cursor:pointer;font-family:inherit;font-size:12px;transition:all .15s}
+.filter-btn:hover{border-color:var(--accent);color:var(--accent)}
+.filter-btn.active{background:var(--accent);border-color:var(--accent);color:#fff}
+.search-box{flex:1;max-width:280px;padding:6px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:6px;color:var(--text);font-family:inherit;font-size:12px;outline:none}
+.search-box::placeholder{color:var(--muted)}
+.search-box:focus{border-color:var(--accent)}
+/* Table */
+.tbl-wrap{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{padding:8px 12px;text-align:left;font-size:11px;font-weight:500;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;border-bottom:1px solid var(--border);white-space:nowrap}
+th.r{text-align:right}
+td{padding:10px 12px;border-bottom:1px solid rgba(42,47,69,.6);vertical-align:middle;font-size:13px}
+td.r{text-align:right;font-family:'IBM Plex Mono',monospace;font-size:12px}
+tr:hover td{background:var(--surface2)}
+/* Badges */
+.badge{display:inline-flex;align-items:center;gap:4px;padding:3px 8px;border-radius:4px;font-size:11px;font-weight:500;white-space:nowrap}
+.badge-pass{background:var(--green-bg);color:var(--green);border:1px solid var(--green-border)}
+.badge-fail{background:var(--red-bg);color:var(--red);border:1px solid var(--red-border)}
+.badge-wait{background:var(--yellow-bg);color:var(--yellow);border:1px solid var(--yellow-border)}
+.badge-none{background:var(--gray-bg);color:var(--muted);border:1px solid var(--gray-border)}
+.badge-qt{background:var(--kpt-soft);color:var(--kpt);border:1px solid rgba(79,142,247,.3)}
+.badge-yr{background:var(--pam-soft);color:var(--pam);border:1px solid rgba(167,139,250,.3)}
+/* Progress bar */
+.bar-wrap{display:flex;align-items:center;gap:8px;min-width:120px}
+.bar-bg{flex:1;height:5px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.bar-fill{height:100%;border-radius:3px;transition:width .4s}
+.bar-pct{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted);min-width:38px;text-align:right}
+/* Chart area */
+.charts-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chart-box{position:relative;height:240px}
+/* AI Chat */
+.ai-panel{background:var(--surface);border:1px solid var(--border);border-radius:var(--r);overflow:hidden;display:flex;flex-direction:column;max-height:460px}
+.ai-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px}
+.ai-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.ai-title{font-size:13px;font-weight:500}
+.ai-sub{font-size:11px;color:var(--muted);margin-left:auto}
+.ai-messages{flex:1;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px;min-height:180px}
+.msg{max-width:88%;display:flex;flex-direction:column;gap:3px}
+.msg.user{align-self:flex-end;align-items:flex-end}
+.msg.bot{align-self:flex-start}
+.msg-bubble{padding:9px 13px;border-radius:var(--r);font-size:13px;line-height:1.55}
+.msg.user .msg-bubble{background:var(--accent);color:#fff}
+.msg.bot .msg-bubble{background:var(--surface2);border:1px solid var(--border);color:var(--text)}
+.msg-bubble.loading{display:flex;gap:4px;align-items:center;padding:12px 16px}
+.dot-1,.dot-2,.dot-3{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:dots 1.2s infinite}
+.dot-2{animation-delay:.2s}.dot-3{animation-delay:.4s}
+@keyframes dots{0%,80%,100%{transform:scale(.8);opacity:.5}40%{transform:scale(1);opacity:1}}
+.ai-input-row{padding:12px;border-top:1px solid var(--border);display:flex;gap:8px}
+.ai-input{flex:1;padding:8px 12px;background:var(--surface2);border:1px solid var(--border);border-radius:var(--r-sm);color:var(--text);font-family:inherit;font-size:13px;outline:none}
+.ai-input:focus{border-color:var(--accent)}
+.ai-send{padding:8px 16px;background:var(--accent);border:none;border-radius:var(--r-sm);color:#fff;cursor:pointer;font-family:inherit;font-size:13px;font-weight:500;white-space:nowrap}
+.ai-send:hover{opacity:.9}
+.quick-chips{padding:0 12px 10px;display:flex;gap:6px;flex-wrap:wrap}
+.chip{padding:4px 10px;background:var(--surface2);border:1px solid var(--border);border-radius:14px;font-size:11px;color:var(--muted);cursor:pointer;transition:all .15s}
+.chip:hover{border-color:var(--accent);color:var(--accent)}
+/* Sections */
+.section{display:none}.section.active{display:contents}
+/* Brand pill */
+.brand-kpt{color:var(--kpt);font-weight:500}
+.brand-pam{color:var(--pam);font-weight:500}
+/* Empty */
+.empty{text-align:center;padding:40px;color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="shell">
+<!-- SIDEBAR -->
+<nav class="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-mark">Sales Dashboard</div>
+    <h1>เป้าร้านค้า<br>ปี 2569</h1>
+  </div>
+  <div class="sidebar-section">ภาพรวม</div>
+  <button class="nav-btn active" onclick="showSection('overview',this)">
+    <span class="nav-dot" style="background:#4F8EF7"></span>ภาพรวมทั้งหมด
+  </button>
+  <div class="sidebar-section">แบรนด์</div>
+  <button class="nav-btn" onclick="showSection('captain',this)">
+    <span class="nav-dot" style="background:var(--kpt)"></span>กัปตัน
+  </button>
+  <button class="nav-btn" onclick="showSection('pam',this)">
+    <span class="nav-dot" style="background:var(--pam)"></span>ปามมาสติก
+  </button>
+  <div class="sidebar-section" style="margin-top:auto">AI ผู้ช่วย</div>
+  <button class="nav-btn" onclick="showSection('ai',this)">
+    <span class="nav-dot" style="background:var(--green);animation:pulse 2s infinite"></span>ถามข้อมูล AI
+  </button>
+</nav>
+
+<!-- MAIN -->
+<main class="main" id="main-content">
+
+<!-- OVERVIEW -->
+<div id="sec-overview" class="section active">
+  <div style="display:flex;align-items:baseline;justify-content:space-between">
+    <div>
+      <div style="font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">ภาพรวม</div>
+      <h2 style="font-size:20px;font-weight:600">สรุปเป้าการขายทั้งหมด</h2>
+    </div>
+    <div style="font-size:11px;color:var(--muted);font-family:'IBM Plex Mono',monospace">ปี 2569 · Q1–Q2</div>
+  </div>
+
+  <div class="kpi-grid" id="kpi-all"></div>
+
+  <div class="charts-grid">
+    <div class="card">
+      <div class="card-title">ผลสรุป Q1 — ร้านเซ็นต์เป้าไตรมาส</div>
+      <div class="chart-box"><canvas id="chart-result" role="img" aria-label="ผลสรุป Q1"></canvas></div>
+    </div>
+    <div class="card">
+      <div class="card-title">% บรรลุเป้า Q1 — ร้านที่มีเป้าไตรมาส</div>
+      <div class="chart-box"><canvas id="chart-pct" role="img" aria-label="% บรรลุเป้า"></canvas></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">ร้านค้าทั้งหมด
+      <div class="filter-row">
+        <input class="search-box" id="search-all" placeholder="ค้นหาชื่อร้าน..." oninput="renderAll()">
+        <button class="filter-btn active" onclick="setFilter('all','brandAll',this)">ทุกแบรนด์</button>
+        <button class="filter-btn" onclick="setFilter('กัปตัน','brandAll',this)">กัปตัน</button>
+        <button class="filter-btn" onclick="setFilter('ปามมาสติก','brandAll',this)">ปามมาสติก</button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>ชื่อร้านค้า</th><th>แบรนด์</th><th>ประเภทเป้า</th>
+        <th class="r">เป้า (บาท)</th><th class="r">ยอดสะสม Q1</th>
+        <th>% Q1</th><th>สรุปผล Q1</th><th class="r">ยอดสะสม Q2</th>
+      </tr></thead>
+      <tbody id="tbl-all"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- CAPTAIN -->
+<div id="sec-captain" class="section">
+  <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px">
+    <div style="width:12px;height:12px;border-radius:50%;background:var(--kpt);flex-shrink:0"></div>
+    <h2 style="font-size:20px;font-weight:600">แบรนด์ กัปตัน</h2>
+  </div>
+  <div class="kpi-grid" id="kpi-kpt"></div>
+  <div class="card">
+    <div class="card-title">ร้านค้ากัปตัน
+      <div class="filter-row">
+        <button class="filter-btn active" onclick="setFilter('all','typeKpt',this)">ทุกประเภท</button>
+        <button class="filter-btn" onclick="setFilter('เป้าไตรมาส','typeKpt',this)">เป้าไตรมาส</button>
+        <button class="filter-btn" onclick="setFilter('เป้าปี','typeKpt',this)">เป้าปี</button>
+        <button class="filter-btn" onclick="setFilter('ไม่มีเป้า','typeKpt',this)">ไม่มีเป้า</button>
+      </div>
+    </div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>ชื่อร้านค้า</th><th>ประเภทเป้า</th>
+        <th class="r">เป้า (บาท)</th><th class="r">ยอดสะสม Q1</th>
+        <th>% Q1</th><th>สรุปผล Q1</th><th class="r">ยอดสะสม Q2</th>
+      </tr></thead>
+      <tbody id="tbl-kpt"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- PAM -->
+<div id="sec-pam" class="section">
+  <div style="display:flex;align-items:baseline;gap:12px;margin-bottom:4px">
+    <div style="width:12px;height:12px;border-radius:50%;background:var(--pam);flex-shrink:0"></div>
+    <h2 style="font-size:20px;font-weight:600">แบรนด์ ปามมาสติก</h2>
+  </div>
+  <div class="kpi-grid" id="kpi-pam"></div>
+  <div class="card">
+    <div class="card-title">ร้านค้าปามมาสติก</div>
+    <div class="tbl-wrap"><table>
+      <thead><tr>
+        <th>ชื่อร้านค้า</th><th>ประเภทเป้า</th>
+        <th class="r">เป้า (บาท)</th><th class="r">ยอดสะสม Q1</th>
+        <th>% Q1</th><th>สรุปผล Q1</th><th class="r">ยอดสะสม Q2</th>
+      </tr></thead>
+      <tbody id="tbl-pam"></tbody>
+    </table></div>
+  </div>
+</div>
+
+<!-- AI SECTION -->
+<div id="sec-ai" class="section">
+  <div style="margin-bottom:4px">
+    <div style="font-size:11px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:4px">AI ผู้ช่วย</div>
+    <h2 style="font-size:20px;font-weight:600">ถามข้อมูลเป้าร้านค้า</h2>
+  </div>
+  <div class="ai-panel">
+    <div class="ai-header">
+      <div class="ai-dot"></div>
+      <span class="ai-title">Claude AI วิเคราะห์ข้อมูลได้เลย</span>
+      <span class="ai-sub">ข้อมูล 32 ร้าน · 2 แบรนด์</span>
+    </div>
+    <div class="ai-messages" id="ai-msgs">
+      <div class="msg bot">
+        <div class="msg-bubble">สวัสดีครับ! ผมช่วยวิเคราะห์ข้อมูลเป้าการขายปี 2569 ได้เลยครับ ลองถามเกี่ยวกับร้านค้า ยอดขาย หรือผลการประเมินได้เลย</div>
+      </div>
+    </div>
+    <div class="quick-chips">
+      <span class="chip" onclick="sendChip(this)">ร้านไหนผ่านเป้าไตรมาส Q1?</span>
+      <span class="chip" onclick="sendChip(this)">ร้านที่ไม่ผ่านเป้า มียอดขาดไปเท่าไร?</span>
+      <span class="chip" onclick="sendChip(this)">สรุปภาพรวมแบรนด์กัปตัน</span>
+      <span class="chip" onclick="sendChip(this)">เปรียบเทียบสองแบรนด์</span>
+    </div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-inp" placeholder="พิมพ์คำถาม..." onkeydown="if(event.key==='Enter')sendAI()">
+      <button class="ai-send" onclick="sendAI()">ส่ง ↑</button>
+    </div>
+  </div>
+</div>
+
+</main>
+</div>
+
+<script>
+const RAW = [{"id":"11002556","name":"ห้างหุ้นส่วนจำกัด เอี๋ยวฮง","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":600000.0,"annual_target":600000.0,"q1":88544.13,"q2":null,"auto_result":"รอสรุปปลายปี","pct_q1":14.8},{"id":"11002589","name":"บริษัท เจริญแสง โปรมาร์ท จำกัด","brand":"กัปตัน","type":"เป้าไตรมาส","target_q":1225000.0,"target_y":null,"annual_target":4900000.0,"q1":1319823.32,"q2":930568.99,"auto_result":"ผ่าน","pct_q1":107.7},{"id":"11002614","name":"บริษัท ขอนแก่น ควอลิตี้ คอนกรีต จำกัด","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":600000.0,"annual_target":600000.0,"q1":65257.57,"q2":160057.79,"auto_result":"รอสรุปปลายปี","pct_q1":10.9},{"id":"11002776","name":"ห้างหุ้นส่วนจำกัด สหโชคพร็อพเพอร์ตี้","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":54920.22,"auto_result":"—","pct_q1":null},{"id":"11003144","name":"บริษัท สยามทรีโกลด์เฮ้าส์ จำกัด","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":528896.8,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11005033","name":"ห้างหุ้นส่วนจำกัด เจริญผลการค้าวัสดุ","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":1200000.0,"annual_target":1200000.0,"q1":249322.67,"q2":150873.45,"auto_result":"รอสรุปปลายปี","pct_q1":20.8},{"id":"11006557","name":"ห้างหุ้นส่วนจำกัด ชัยมงคล โฮมแอนด์คอนกรีต","brand":"กัปตัน","type":"เป้าไตรมาส","target_q":1625000.0,"target_y":null,"annual_target":6500000.0,"q1":1573215.45,"q2":611449.85,"auto_result":"ไม่ผ่าน","pct_q1":96.8},{"id":"11007182","name":"ห้างหุ้นส่วนจำกัดเมืองเก่าค้าไม้","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":155617.4,"q2":83547.69,"auto_result":"—","pct_q1":null},{"id":"11008590","name":"บริษัท สกาย อัพ เพ้นติ้ง จำกัด","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11008683","name":"ร้านทรงธรรม","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":44423.69,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11008768","name":"ห้างหุ้นส่วนจำกัด อิสระชน หนองบัวบาน","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":600000.0,"annual_target":600000.0,"q1":123292.15,"q2":0.0,"auto_result":"รอสรุปปลายปี","pct_q1":20.5},{"id":"11008894","name":"ห้างหุ้นส่วนจำกัด รวมทรัพย์วัสดุชัยภูมิ","brand":"กัปตัน","type":"เป้าไตรมาส","target_q":1175000.0,"target_y":null,"annual_target":4700000.0,"q1":1670798.86,"q2":1159507.72,"auto_result":"ผ่าน","pct_q1":142.2},{"id":"11010420","name":"ห้างหุ้นส่วนจำกัด นิตยาค้าวัสดุ","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":1200000.0,"annual_target":null,"q1":476867.22,"q2":165915.3,"auto_result":"รอสรุปปลายปี","pct_q1":39.7},{"id":"11010729","name":"บริษัท ไดโน่ วัสดุก่อสร้าง จำกัด","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":600000.0,"annual_target":600000.0,"q1":323542.15,"q2":250871.31,"auto_result":"รอสรุปปลายปี","pct_q1":53.9},{"id":"11011939","name":"ร้านจีระพาณิชย์","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11012018","name":"บริษัท ลีชุนเซ้ง จำกัด","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":51500.44,"auto_result":"—","pct_q1":null},{"id":"11012169","name":"ห้างหุ้นส่วนจำกัด คำทองค้าวัสดุ","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":32235.23,"q2":12520.92,"auto_result":"—","pct_q1":null},{"id":"11012185","name":"ห้างหุ้นส่วนจำกัด ศิริพรคอนกรีต 2017","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":1200000.0,"annual_target":null,"q1":484803.1,"q2":311515.76,"auto_result":"รอสรุปปลายปี","pct_q1":40.4},{"id":"11012215","name":"ห้างหุ้นส่วนจำกัด สงวนชัยค้าวัสดุ","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":700000.0,"annual_target":700000.0,"q1":67712.73,"q2":32504.62,"auto_result":"รอสรุปปลายปี","pct_q1":9.7},{"id":"11014069","name":"บริษัท ไทยเพิ่มพูลโฮมช็อป เซ็นเตอร์ จำกัด","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":null,"q2":null,"auto_result":"—","pct_q1":null},{"id":"11016103","name":"เอ็มเจการเกษตร","brand":"กัปตัน","type":"เป้าปี","target_q":null,"target_y":600000.0,"annual_target":600000.0,"q1":43831.02,"q2":0.0,"auto_result":"รอสรุปปลายปี","pct_q1":7.3},{"id":"11012206","name":"บริษัท ชอบปัญญา วัสดุก่อสร้าง จำกัด","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11012130","name":"ชาติวัสดุ","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":null,"auto_result":"—","pct_q1":null},{"id":"11016445","name":"ห้างหุ้นส่วนจำกัด เม่งฮะ ค้าวัสดุ","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":202524.8,"q2":193340.2,"auto_result":"—","pct_q1":null},{"id":"11011888","name":"ลิดาวัสดุก่อสร้าง","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11008296","name":"ห้างหุ้นส่วนจำกัด ยี่ โลหะภัณฑ์","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":null,"auto_result":"—","pct_q1":null},{"id":"11012284","name":"บริษัท อินฟินนิตี้เฮาส์ จำกัด","brand":"กัปตัน","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":27399.49,"q2":0.0,"auto_result":"—","pct_q1":null},{"id":"11002589","name":"บริษัท เจริญแสง โปรมาร์ท จำกัด","brand":"ปามมาสติก","type":"เป้าไตรมาส","target_q":162500.0,"target_y":null,"annual_target":650000.0,"q1":220350.44,"q2":6813.12,"auto_result":"ผ่าน","pct_q1":135.6},{"id":"11010729","name":"บริษัท ไดโน่ วัสดุก่อสร้าง จำกัด","brand":"ปามมาสติก","type":"เป้าปี","target_q":null,"target_y":650000.0,"annual_target":650000.0,"q1":7217.81,"q2":0.0,"auto_result":"รอสรุปปลายปี","pct_q1":1.1},{"id":"11012284","name":"บริษัท อินฟินนิตี้เฮาส์ จำกัด","brand":"ปามมาสติก","type":"เป้าปี","target_q":null,"target_y":650000.0,"annual_target":650000.0,"q1":15913.7,"q2":null,"auto_result":"รอสรุปปลายปี","pct_q1":2.4},{"id":"11012267","name":"ห้างหุ้นส่วนจำกัด  บ้านไผ่ไท้เฮงหลี","brand":"ปามมาสติก","type":"เป้าปี","target_q":null,"target_y":650000.0,"annual_target":650000.0,"q1":1356.98,"q2":75334.68,"auto_result":"รอสรุปปลายปี","pct_q1":0.2},{"id":"11010650","name":"ห้างหุ้นส่วนจำกัด ป.วัสดุก่อสร้าง","brand":"ปามมาสติก","type":"ไม่มีเป้า","target_q":null,"target_y":null,"annual_target":null,"q1":0.0,"q2":0.0,"auto_result":"—","pct_q1":null}];
+
+const fmt = v => v == null ? '—' : Math.round(v).toLocaleString('th-TH');
+const fmtPct = v => v == null ? '—' : v.toFixed(1) + '%';
+const resultBadge = r => {
+  if(r==='ผ่าน') return `<span class="badge badge-pass">✓ ผ่าน</span>`;
+  if(r==='ไม่ผ่าน') return `<span class="badge badge-fail">✗ ไม่ผ่าน</span>`;
+  if(r==='รอสรุปปลายปี') return `<span class="badge badge-wait">⏳ รอสรุปปลายปี</span>`;
+  return `<span class="badge badge-none">—</span>`;
+};
+const typeBadge = t => {
+  if(t==='เป้าไตรมาส') return `<span class="badge badge-qt">ไตรมาส</span>`;
+  if(t==='เป้าปี') return `<span class="badge badge-yr">ปี</span>`;
+  return `<span class="badge badge-none">—</span>`;
+};
+const barHtml = (pct,result) => {
+  if(pct==null) return '<span style="color:var(--muted);font-size:11px">—</span>';
+  const clamp = Math.min(pct,150);
+  const color = result==='ผ่าน'?'var(--green)':result==='ไม่ผ่าน'?'var(--red)':'var(--yellow)';
+  return `<div class="bar-wrap"><div class="bar-bg"><div class="bar-fill" style="width:${Math.min(clamp/150*100,100)}%;background:${color}"></div></div><span class="bar-pct">${fmtPct(pct)}</span></div>`;
+};
+
+let filters = {brandAll:'all', typeKpt:'all'};
+
+function setFilter(val,key,btn){
+  filters[key]=val;
+  btn.closest('.filter-row').querySelectorAll('.filter-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  if(key==='brandAll') renderAll();
+  if(key==='typeKpt') renderBrand('กัปตัน','tbl-kpt',filters.typeKpt);
+}
+
+function renderRow(d, showBrand=true){
+  const target = d.type==='เป้าไตรมาส' ? d.target_q : d.target_y;
+  const brandCls = d.brand==='กัปตัน'?'brand-kpt':'brand-pam';
+  return `<tr>
+    <td>${d.name}</td>
+    ${showBrand?`<td class="${brandCls}">${d.brand}</td>`:''}
+    <td>${typeBadge(d.type)}</td>
+    <td class="r">${fmt(target)}</td>
+    <td class="r">${fmt(d.q1)}</td>
+    <td>${barHtml(d.pct_q1,d.auto_result)}</td>
+    <td>${resultBadge(d.auto_result)}</td>
+    <td class="r">${fmt(d.q2)}</td>
+  </tr>`;
+}
+
+function renderAll(){
+  const q = document.getElementById('search-all').value.toLowerCase();
+  const brand = filters.brandAll;
+  const data = RAW.filter(d=>{
+    if(brand!=='all'&&d.brand!==brand) return false;
+    if(q&&!d.name.toLowerCase().includes(q)) return false;
+    return true;
+  });
+  const el = document.getElementById('tbl-all');
+  el.innerHTML = data.length ? data.map(d=>renderRow(d,true)).join('') : `<tr><td colspan="8" class="empty">ไม่พบร้านค้า</td></tr>`;
+}
+
+function renderBrand(brand, tbId, typeFilter='all'){
+  const data = RAW.filter(d=>d.brand===brand&&(typeFilter==='all'||d.type===typeFilter));
+  document.getElementById(tbId).innerHTML = data.length ? data.map(d=>renderRow(d,false)).join('') : `<tr><td colspan="7" class="empty">ไม่พบข้อมูล</td></tr>`;
+}
+
+function buildKPI(brand){
+  const data = brand ? RAW.filter(d=>d.brand===brand) : RAW;
+  const withQt = data.filter(d=>d.type==='เป้าไตรมาส');
+  const withYr = data.filter(d=>d.type==='เป้าปี');
+  const pass = withQt.filter(d=>d.auto_result==='ผ่าน').length;
+  const fail = withQt.filter(d=>d.auto_result==='ไม่ผ่าน').length;
+  return [
+    {label:'ร้านค้าทั้งหมด',value:data.length,sub:'ร้าน',color:'var(--accent)'},
+    {label:'เซ็นต์เป้าไตรมาส',value:withQt.length,sub:'ร้าน',color:'var(--kpt)'},
+    {label:'เซ็นต์เป้าปี',value:withYr.length,sub:'ร้าน',color:'var(--pam)'},
+    {label:'ผ่านเป้า Q1',value:pass,sub:`จาก ${withQt.length} ร้าน · ไม่ผ่าน ${fail}`,color:pass>0?'var(--green)':'var(--muted)'},
+  ];
+}
+
+function renderKPI(id, brand){
+  const items = buildKPI(brand);
+  document.getElementById(id).innerHTML = items.map(k=>`
+    <div class="kpi">
+      <div class="kpi-label">${k.label}</div>
+      <div class="kpi-value" style="color:${k.color}">${k.value}</div>
+      <div class="kpi-sub">${k.sub}</div>
+    </div>`).join('');
+}
+
+function showSection(id, btn){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.getElementById('sec-'+id).classList.add('active');
+  document.querySelectorAll('.nav-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// Charts
+function initCharts(){
+  const qt = RAW.filter(d=>d.type==='เป้าไตรมาส');
+  const pass=qt.filter(d=>d.auto_result==='ผ่าน').length;
+  const fail=qt.filter(d=>d.auto_result==='ไม่ผ่าน').length;
+
+  new Chart(document.getElementById('chart-result'),{
+    type:'doughnut',
+    data:{labels:['ผ่าน','ไม่ผ่าน'],datasets:[{data:[pass,fail],backgroundColor:['#34D399','#F87171'],borderWidth:0,hoverOffset:4}]},
+    options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}}}
+  });
+
+  const pctData = RAW.filter(d=>d.type==='เป้าไตรมาส'&&d.pct_q1!=null).sort((a,b)=>b.pct_q1-a.pct_q1);
+  new Chart(document.getElementById('chart-pct'),{
+    type:'bar',
+    data:{
+      labels:pctData.map(d=>d.name.replace(/ห้างหุ้นส่วนจำกัด |บริษัท /g,'').replace(/ จำกัด/g,'').substring(0,14)),
+      datasets:[{data:pctData.map(d=>d.pct_q1),backgroundColor:pctData.map(d=>d.auto_result==='ผ่าน'?'rgba(52,211,153,.7)':'rgba(248,113,113,.7)'),borderRadius:4}]
+    },
+    options:{
+      responsive:true,maintainAspectRatio:false,
+      plugins:{legend:{display:false}},
+      scales:{
+        x:{ticks:{color:'#7A809A',font:{size:10}},grid:{display:false}},
+        y:{ticks:{color:'#7A809A',font:{size:10},callback:v=>v+'%'},grid:{color:'rgba(255,255,255,.05)'}}
+      }
+    }
+  });
+}
+
+// AI Chat
+const DATA_SUMMARY = JSON.stringify(RAW.map(d=>({name:d.name,brand:d.brand,type:d.type,target:d.type==='เป้าไตรมาส'?d.target_q:d.target_y,q1:d.q1,q2:d.q2,result:d.auto_result,pct:d.pct_q1})));
+
+async function sendAI(){
+  const inp=document.getElementById('ai-inp');
+  const q=inp.value.trim(); if(!q) return;
+  inp.value='';
+  addMsg(q,'user');
+  const loading=addMsg(null,'bot',true);
+  try{
+    const res=await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        model:'claude-sonnet-4-6',max_tokens:1000,
+        system:`คุณเป็น AI ผู้ช่วยวิเคราะห์ข้อมูลเป้าการขายร้านค้า ปี 2569 (ค.ศ. 2026) มีข้อมูลดังนี้:\n${DATA_SUMMARY}\nตอบเป็นภาษาไทย กระชับ ชัดเจน ใช้ตัวเลขประกอบ`,
+        messages:[{role:'user',content:q}]
+      })
+    });
+    const data=await res.json();
+    loading.remove();
+    addMsg(data.content[0].text,'bot');
+  }catch(e){
+    loading.remove();
+    addMsg('เกิดข้อผิดพลาด กรุณาลองใหม่','bot');
+  }
+}
+
+function addMsg(text,role,loading=false){
+  const wrap=document.getElementById('ai-msgs');
+  const div=document.createElement('div');
+  div.className=`msg ${role}`;
+  if(loading){
+    div.innerHTML=`<div class="msg-bubble loading"><div class="dot-1"></div><div class="dot-2"></div><div class="dot-3"></div></div>`;
+  }else{
+    div.innerHTML=`<div class="msg-bubble">${text.replace(/\n/g,'<br>')}</div>`;
+  }
+  wrap.appendChild(div);
+  wrap.scrollTop=wrap.scrollHeight;
+  return div;
+}
+
+function sendChip(el){
+  document.getElementById('ai-inp').value=el.textContent;
+  sendAI();
+}
+
+// Init
+renderKPI('kpi-all',null);
+renderKPI('kpi-kpt','กัปตัน');
+renderKPI('kpi-pam','ปามมาสติก');
+renderAll();
+renderBrand('กัปตัน','tbl-kpt');
+renderBrand('ปามมาสติก','tbl-pam');
+initCharts();
+</script>
+</body>
+</html>
