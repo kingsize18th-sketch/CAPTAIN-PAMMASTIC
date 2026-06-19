@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ใบราคากัปตัน 2569</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#0F1117;--s:#181C27;--s2:#1E2336;--b:#2A2F45;--t:#E8EAF0;--m:#7A809A;--acc:#2E75B6;--r:10px}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;font-size:14px}
+.hdr{background:var(--s);border-bottom:1px solid var(--b);padding:14px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;gap:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px}
+.logo-box{background:rgba(46,117,182,.15);border:1px solid rgba(46,117,182,.35);border-radius:7px;padding:5px 12px;font-size:11px;font-weight:600;letter-spacing:.1em;color:#4F8EF7;text-transform:uppercase}
+.logo h1{font-size:15px;font-weight:500}
+.hdr-meta{font-size:11px;color:var(--m);font-family:'IBM Plex Mono',monospace;text-align:right;line-height:1.7}
+.wrap{max-width:1320px;margin:0 auto;padding:20px 16px}
+.filters{background:var(--s);border:1px solid var(--b);border-radius:var(--r);padding:14px 18px;margin-bottom:18px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.search-box{flex:1;min-width:220px;padding:8px 13px;background:var(--s2);border:1px solid var(--b);border-radius:6px;color:var(--t);font-family:inherit;font-size:13px;outline:none}
+.search-box:focus{border-color:var(--acc)}
+.search-box::placeholder{color:var(--m)}
+.sep{width:1px;height:22px;background:var(--b);flex-shrink:0}
+.fg{display:flex;gap:6px;flex-wrap:wrap}
+.fb{padding:5px 12px;border:1px solid var(--b);border-radius:16px;background:none;color:var(--m);cursor:pointer;font-family:inherit;font-size:12px;transition:all .15s;white-space:nowrap}
+.fb:hover{border-color:var(--acc);color:var(--acc)}
+.fb.on{background:rgba(46,117,182,.15);border-color:var(--acc);color:#4F8EF7;font-weight:500}
+.stats{font-size:12px;color:var(--m);margin-bottom:14px}
+.stats b{color:var(--t);font-family:'IBM Plex Mono',monospace}
+.cat-sec{margin-bottom:26px}
+.cat-hdr{display:flex;align-items:center;gap:9px;margin-bottom:11px;padding-bottom:9px;border-bottom:1px solid var(--b)}
+.cat-dot{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.cat-title{font-size:14px;font-weight:500}
+.cat-cnt{font-size:11px;color:var(--m);background:var(--s2);padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:11px}
+.card{background:var(--s);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.card:hover{border-color:rgba(79,142,247,.35)}
+.card-top{padding:11px 13px 9px;border-bottom:1px solid var(--b);display:flex;align-items:flex-start;gap:7px}
+.tier-pill{font-size:10px;font-weight:500;letter-spacing:.05em;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;text-transform:uppercase;white-space:nowrap}
+.card-name{font-size:13px;font-weight:500;line-height:1.4}
+.card-sub{font-size:11px;color:var(--m);margin-top:2px}
+.prices{padding:9px 13px 11px}
+.pr{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:.5px solid rgba(42,47,69,.6)}
+.pr:last-child{border-bottom:none}
+.pr-sz{font-size:12px;color:var(--m)}
+.pr-pk{font-size:10px;color:rgba(122,128,154,.7)}
+.pr-net{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500}
+.pr-vat{font-family:'IBM Plex Mono',monospace;font-size:11px;color:#4F8EF7}
+.card-ft{padding:7px 13px;background:var(--s2);display:flex;justify-content:space-between;font-size:11px;color:var(--m)}
+.new-b{font-size:9px;background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.3);padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle;font-weight:500}
+.empty{text-align:center;padding:60px;color:var(--m);font-size:13px}
+/* tier colors */
+.t-ultra{background:rgba(167,139,250,.13);color:#A78BFA;border:1px solid rgba(167,139,250,.3)}
+.t-prem{background:rgba(79,142,247,.12);color:#4F8EF7;border:1px solid rgba(79,142,247,.3)}
+.t-med{background:rgba(52,211,153,.1);color:#34D399;border:1px solid rgba(52,211,153,.25)}
+.t-eco{background:rgba(251,191,36,.1);color:#FBBF24;border:1px solid rgba(251,191,36,.25)}
+.t-spec{background:rgba(251,113,133,.1);color:#FB7185;border:1px solid rgba(251,113,133,.25)}
+.t-chem{background:rgba(244,114,182,.1);color:#F472B6;border:1px solid rgba(244,114,182,.25)}
+.t-wood{background:rgba(251,146,60,.1);color:#FB923C;border:1px solid rgba(251,146,60,.25)}
+.t-ind{background:rgba(148,163,184,.1);color:#94A3B8;border:1px solid rgba(148,163,184,.25)}
+.d-ultra{background:#A78BFA}.d-prem{background:#4F8EF7}.d-med{background:#34D399}
+.d-eco{background:#FBBF24}.d-spec{background:#FB7185}.d-chem{background:#F472B6}
+.d-wood{background:#FB923C}.d-ind{background:#94A3B8}
+</style>
+</head>
+<body>
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-box">CAPTAIN</div>
+    <h1>ใบราคาผลิตภัณฑ์ Retail 2569</h1>
+  </div>
+  <div class="hdr-meta">มีผลบังคับใช้: 18 มีนาคม 2569<br>ส่วนลดมาตรฐาน 45% · 15%</div>
+</div>
+<div class="wrap">
+  <div class="filters">
+    <input class="search-box" id="q" placeholder="🔍 ค้นหาชื่อสินค้า รหัส หรือประเภท..." oninput="render()">
+    <div class="sep"></div>
+    <div class="fg" id="tf">
+      <button class="fb on" onclick="setF('tier','all',this)">ทุกกลุ่ม</button>
+      <button class="fb" onclick="setF('tier','ultra',this)">Ultra Premium</button>
+      <button class="fb" onclick="setF('tier','prem',this)">Premium</button>
+      <button class="fb" onclick="setF('tier','med',this)">Medium</button>
+      <button class="fb" onclick="setF('tier','eco',this)">Economy</button>
+      <button class="fb" onclick="setF('tier','spec',this)">สีเฉพาะงาน</button>
+      <button class="fb" onclick="setF('tier','chem',this)">เคมีก่อสร้าง</button>
+      <button class="fb" onclick="setF('tier','wood',this)">งานไม้</button>
+      <button class="fb" onclick="setF('tier','ind',this)">อุตสาหกรรม</button>
+    </div>
+  </div>
+  <div class="stats" id="st"></div>
+  <div id="ct"></div>
+</div>
+<script>
+const CATS = {
+  ultra:{label:'ULTRA PREMIUM',dot:'d-ultra',pill:'t-ultra'},
+  prem:{label:'PREMIUM',dot:'d-prem',pill:'t-prem'},
+  med:{label:'MEDIUM',dot:'d-med',pill:'t-med'},
+  eco:{label:'ECONOMY',dot:'d-eco',pill:'t-eco'},
+  spec:{label:'สีเฉพาะงาน',dot:'d-spec',pill:'t-spec'},
+  chem:{label:'เคมีก่อสร้าง & ทินเนอร์',dot:'d-chem',pill:'t-chem'},
+  wood:{label:'ผลิตภัณฑ์งานไม้',dot:'d-wood',pill:'t-wood'},
+  ind:{label:'สีอุตสาหกรรม',dot:'d-ind',pill:'t-ind'},
+};
+const P=[
+// ULTRA PREMIUM
+{tier:'ultra',name:'สีน้ำพาราชิลด์ พียู ไฮบริด ภายนอกเนียน',sub:'พาราชิลด์ คูลแม็กซ์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:766,v:819},{s:'5 แกลลอน',pk:'1 ถัง',n:3642,v:3897}]},
+{tier:'ultra',name:'สีน้ำพาราชิลด์ พียู ไฮบริด ภายนอกกึ่งเงา',sub:'พาราชิลด์ คูลแม็กซ์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:845,v:904},{s:'5 แกลลอน',pk:'1 ถัง',n:4013,v:4294}]},
+{tier:'ultra',name:'สีรองพื้นปูนใหม่ฉนวนกันร้อน พาราชิลด์ คูลแม็กซ์',sub:'รองพื้น C9900',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:606,v:648},{s:'5 แกลลอน',pk:'1 ถัง',n:2868,v:3069}]},
+{tier:'ultra',name:'สีรองพื้นปูนใหม่กันด่าง พาราชิลด์',sub:'รองพื้น',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:545,v:583},{s:'5 แกลลอน',pk:'1 ถัง',n:2588,v:2769}]},
+{tier:'ultra',name:'สีน้ำเบสพาราชิลด์ พียู ไฮบริด เนียน เบส A–D',sub:'สีเบส',solvent:'น้ำสะอาด',prices:[{s:'1 กล. เบส A',pk:'4 กล./กล่อง',n:715,v:765},{s:'1 กล. เบส B',pk:'4 กล./กล่อง',n:687,v:735},{s:'1 กล. เบส C',pk:'4 กล./กล่อง',n:652,v:697},{s:'1 กล. เบส D',pk:'4 กล./กล่อง',n:545,v:583}]},
+{tier:'ultra',name:'สีน้ำเบสพาราชิลด์ พียู ไฮบริด กึ่งเงา เบส A–D',sub:'สีเบส',solvent:'น้ำสะอาด',prices:[{s:'1 กล. เบส A',pk:'4 กล./กล่อง',n:785,v:840},{s:'1 กล. เบส B',pk:'4 กล./กล่อง',n:759,v:812},{s:'1 กล. เบส C',pk:'4 กล./กล่อง',n:718,v:768},{s:'1 กล. เบส D',pk:'4 กล./กล่อง',n:600,v:642}]},
+{tier:'ultra',name:'สีน้ำเฟรชชี่คลีน อัลตร้า ภายในกึ่งเงา',sub:'เฟรชชี่คลีน ชาร์โคลคลีน',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:676,v:724},{s:'5 แกลลอน',pk:'1 ถัง',n:3219,v:3444}]},
+{tier:'ultra',name:'สีน้ำเฟรชชี่คลีน อัลตร้า ภายในเนียน',sub:'เฟรชชี่คลีน',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:664,v:710},{s:'5 แกลลอน',pk:'1 ถัง',n:3153,v:3374}]},
+{tier:'ultra',name:'สีทาฝ้าเพดานเฟรชชี่คลีน อัลตร้า',sub:'เฟรชชี่คลีน',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:626,v:670},{s:'5 แกลลอน',pk:'1 ถัง',n:2976,v:3184}]},
+// PREMIUM
+{tier:'prem',name:'สีอีลาสโตเมอริค ออลอินวัน กึ่งเงา',sub:'ออล อิน วัน',solvent:'น้ำสะอาด',prices:[{s:'5 ลิตร',pk:'1 ถัง',n:1169,v:1251},{s:'15 ลิตร',pk:'1 ถัง',n:3184,v:3407}]},
+{tier:'prem',name:'สีทาฝ้า ออลอินวัน',sub:'ออล อิน วัน',solvent:'น้ำสะอาด',prices:[{s:'5 ลิตร',pk:'1 ถัง',n:776,v:830},{s:'15 ลิตร',pk:'1 ถัง',n:2265,v:2424}]},
+{tier:'prem',name:'รองพื้นปูนใหม่ ออลอินวัน',sub:'ออล อิน วัน',solvent:'น้ำสะอาด',prices:[{s:'5 ลิตร',pk:'1 ถัง',n:746,v:798},{s:'15 ลิตร',pk:'1 ถัง',n:2043,v:2186}]},
+{tier:'prem',name:'รองพื้นปูนเก่า ออลอินวัน สูตรน้ำ',sub:'ออล อิน วัน',solvent:'น้ำสะอาด',prices:[{s:'5 ลิตร',pk:'1 ถัง',n:687,v:735},{s:'15 ลิตร',pk:'1 ถัง',n:1882,v:2013}]},
+{tier:'prem',name:'สีทาฝ้า กัปตัน วันโค้ท',sub:'วันโค้ท #CP777 #CP999',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:505,v:540},{s:'2.5 แกลลอน',pk:'1 ถัง',n:1180,v:1263}]},
+{tier:'prem',name:'สีน้ำกัปตันรีเพ้นท์ ภายนอกกึ่งเงา',sub:'รีเพ้นท์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:646,v:691},{s:'5 แกลลอน',pk:'1 ถัง',n:3064,v:3279}]},
+{tier:'prem',name:'น้ำยาปรับผิวปูนเก่า กัปตันรีเพ้นท์',sub:'รองพื้น รีเพ้นท์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:540,v:578},{s:'5 แกลลอน',pk:'1 ถัง',n:2571,v:2751}]},
+{tier:'prem',name:'กัปตัน ทราโว่ ทาฝ้า ทูอินวัน',sub:'NEW · ขาวเบส/ขาวควัน',isNew:true,solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:402,v:430},{s:'2.5 แกลลอน',pk:'1 ถัง',n:958,v:1025},{s:'5 แกลลอน',pk:'1 ถัง',n:1823,v:1951}]},
+{tier:'prem',name:'สีน้ำกัปตันสตูดิโอ ภายนอกกึ่งเงา',sub:'สตูดิโอ',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:646,v:691},{s:'5 แกลลอน',pk:'1 ถัง',n:3064,v:3279}]},
+{tier:'prem',name:'สีน้ำกัปตันสตูดิโอชิลด์ ภายนอกด้าน',sub:'สตูดิโอ ชิลด์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:553,v:592},{s:'5 แกลลอน',pk:'1 ถัง',n:2625,v:2809}]},
+{tier:'prem',name:'สีน้ำกัปตันสตูดิโอชิลด์ ภายนอกกึ่งเงา',sub:'สตูดิโอ ชิลด์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:646,v:691},{s:'5 แกลลอน',pk:'1 ถัง',n:3064,v:3279}]},
+{tier:'prem',name:'สีน้ำกัปตันสตูดิโอชิลด์ ภายในด้าน',sub:'สตูดิโอ ชิลด์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:424,v:454},{s:'5 แกลลอน',pk:'1 ถัง',n:2020,v:2161}]},
+{tier:'prem',name:'สีทาฝ้า กัปตันสตูดิโอชิลด์',sub:'สตูดิโอ ชิลด์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:393,v:420},{s:'5 แกลลอน',pk:'1 ถัง',n:1870,v:2001}]},
+{tier:'prem',name:'น้ำยารองพื้นปูนเก่า กัปตัน',sub:'รองพื้น',solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:645,v:690},{s:'5 แกลลอน',pk:'1 ถัง',n:3228,v:3454}]},
+{tier:'prem',name:'CAP READY PARATEX #01000',sub:'รองพื้น',solvent:'น้ำสะอาด',prices:[{s:'5 แกลลอน',pk:'1 ถัง',n:1397,v:1495}]},
+{tier:'prem',name:'สีน้ำกัปตัน ไฟเบอร์ซีเมนต์ ชิลด์',sub:'ไฟเบอร์ซีเมนต์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:549,v:588}]},
+{tier:'prem',name:'สีรองพื้นกันสนิมรัสต์พรีเวนทีฟ',sub:'Rust Preventive · กลุ่มพิเศษ',solvent:'ทินเนอร์',prices:[{s:'5 แกลลอน',pk:'1 ถัง',n:3824,v:4091}]},
+{tier:'prem',name:'รองพื้นกันสนิมซิงค์โครเมท กัปตัน',sub:'รองพื้นกันสนิม',solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:687,v:735}]},
+// MEDIUM
+{tier:'med',name:'สีน้ำลองไลฟ์ท็อปชิลด์ ภายนอกกึ่งเงา',sub:'ลองไลฟ์ ท็อปชิลด์',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:618,v:661},{s:'5 แกลลอน',pk:'1 ถัง',n:2938,v:3143}]},
+{tier:'med',name:'สีน้ำลองไลฟ์ชิลด์พลัส ภายนอกด้าน',sub:'ลองไลฟ์ ชิลด์พลัส',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:476,v:509},{s:'5 แกลลอน',pk:'1 ถัง',n:2262,v:2421}]},
+{tier:'med',name:'สีน้ำลองไลฟ์ชิลด์พลัส ภายในด้าน',sub:'ลองไลฟ์ ชิลด์พลัส',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:366,v:392},{s:'5 แกลลอน',pk:'1 ถัง',n:1711,v:1831}]},
+{tier:'med',name:'สีเคลือบเงา ลองไลฟ์',sub:'ลองไลฟ์',solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:571,v:611},{s:'5 แกลลอน (ขาวเท่านั้น)',pk:'1 ถัง',n:2770,v:2964}]},
+{tier:'med',name:'สีเคลือบด้าน ลองไลฟ์',sub:'#2110 ขาวด้าน / #2770 ดำด้าน',solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:467,v:500}]},
+{tier:'med',name:'สีน้ำเวลเท็คพลัส ภายนอกกึ่งเงา',sub:'เวลเท็คพลัส',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:452,v:484},{s:'5 แกลลอน',pk:'1 ถัง',n:2127,v:2276}]},
+{tier:'med',name:'สีน้ำเวลเท็คพลัส ภายนอกด้าน',sub:'เวลเท็คพลัส',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:313,v:335},{s:'5 แกลลอน',pk:'1 ถัง',n:1465,v:1568}]},
+{tier:'med',name:'สีน้ำเวลเท็คพลัส ภายในด้าน',sub:'เวลเท็คพลัส',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:243,v:260}]},
+// ECONOMY
+{tier:'eco',name:'สีน้ำมาร์ค ภายนอกด้าน',sub:'มาร์ค',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:191,v:204},{s:'5 แกลลอน',pk:'1 ถัง',n:815,v:872}]},
+{tier:'eco',name:'สีน้ำมาร์ค ภายในด้าน',sub:'มาร์ค',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:135,v:144},{s:'5 แกลลอน',pk:'1 ถัง',n:572,v:612}]},
+{tier:'eco',name:'สีน้ำแรด ภายนอกด้าน',sub:'แรด (ส่วนลดมาตรฐาน)',solvent:'น้ำสะอาด',prices:[{s:'5 แกลลอน',pk:'1 ถัง',n:700,v:749}]},
+{tier:'eco',name:'รองพื้นปูนใหม่ ไลโอเนล',sub:'ไลโอเนล',solvent:'น้ำสะอาด',prices:[{s:'5 แกลลอน',pk:'1 ถัง',n:770,v:823}]},
+{tier:'eco',name:'สีรองพื้นกันสนิมแดง ไลโอเนล #L201',sub:'ไลโอเนล',solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:242,v:259},{s:'5 แกลลอน',pk:'1 ถัง',n:1095,v:1172}]},
+{tier:'eco',name:'มาร์ค ทูอินวัน รัสท์เทค เงา',sub:'NEW',isNew:true,solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:380,v:406}]},
+// SPECIAL
+{tier:'spec',name:'สีอะครีลิคทองคำ กัปตัน สูตรน้ำ #EG919',sub:'สีทองคำ',solvent:'น้ำสะอาด',prices:[{s:'1/4 แกลลอน',pk:'12 กป./กล่อง',n:520,v:556},{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:1989,v:2128}]},
+{tier:'spec',name:'สีอะครีลิคทองคำ กัปตัน สูตรน้ำมัน #AG123',sub:'สีทองคำ',solvent:'ทินเนอร์',prices:[{s:'1/4 แกลลอน',pk:'12 กป./กล่อง',n:579,v:619},{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:2173,v:2326}]},
+{tier:'spec',name:'สีทากระเบื้องหลังคา กัปตัน',sub:'สีหลังคา',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:424,v:454},{s:'5 แกลลอน',pk:'1 ถัง',n:2002,v:2142}]},
+{tier:'spec',name:'กัปตัน โซลาร์ชิลด์',sub:'สีเฉพาะงาน',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:678,v:726}]},
+{tier:'spec',name:'กัปตัน เมทัลการ์ด ทูอินวัน ชนิดเงา',sub:'สีโลหะ',solvent:'ทินเนอร์',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:636,v:681}]},
+// CHEM
+{tier:'chem',name:'ทินเนอร์ผสมสีเคลือบ กัปตัน #0CT01',sub:'ทินเนอร์',solvent:'—',prices:[{s:'1/4 แกลลอน',pk:'12 กป./กล่อง',n:144,v:155},{s:'1 แกลลอน',pk:'6 กล./กล่อง',n:514,v:550}]},
+{tier:'chem',name:'ทินเนอร์ผสมแลคเกอร์ กัปตัน #0CT71',sub:'ทินเนอร์',solvent:'—',prices:[{s:'1 แกลลอน',pk:'6 กล./กล่อง',n:385,v:412}]},
+{tier:'chem',name:'กัปตัน พรีเมียม ทินเนอร์ ทูอินวัน #T1000',sub:'ทินเนอร์',solvent:'—',prices:[{s:'1 แกลลอน',pk:'6 กล./กล่อง',n:194,v:207}]},
+{tier:'chem',name:'ผลิตภัณฑ์ฆ่าเชื้อรา กัปตัน',sub:'เคมีก่อสร้าง',solvent:'น้ำสะอาด',prices:[{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:397,v:425}]},
+{tier:'chem',name:'กัปตัน ซิลิโคน ซีลแลนท์',sub:'เคมีก่อสร้าง',solvent:'—',prices:[{s:'300 ml.',pk:'24 หลอด/กล่อง',n:106,v:113}]},
+{tier:'chem',name:'กัปตัน 303 อะคริลิก ซีลแลนท์',sub:'NEW',isNew:true,solvent:'—',prices:[{s:'300 ml.',pk:'24 หลอด/กล่อง',n:97,v:104}]},
+{tier:'chem',name:'กัปตัน เมก้า บอนด์ กาวตะปู',sub:'NEW',isNew:true,solvent:'—',prices:[{s:'390 กรัม',pk:'12 หลอด/กล่อง',n:152,v:163}]},
+{tier:'chem',name:'มาร์ค ซีล 303 อะคริลิก ซีลแลนท์',sub:'เคมีก่อสร้าง',solvent:'—',prices:[{s:'300 ml.',pk:'24 หลอด/กล่อง',n:91,v:97}]},
+// WOOD
+{tier:'wood',name:'สีย้อมไม้ กัปตัน',sub:'งานไม้',solvent:'ทินเนอร์',prices:[{s:'1/4 แกลลอน',pk:'12 กป./กล่อง',n:201,v:215},{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:720,v:770}]},
+{tier:'wood',name:'แลคเกอร์ กัปตัน เงา',sub:'งานไม้',solvent:'ทินเนอร์',prices:[{s:'1/4 แกลลอน',pk:'12 กป./กล่อง',n:162,v:173},{s:'1 แกลลอน',pk:'4 กล./กล่อง',n:571,v:611}]},
+// INDUSTRIAL
+{tier:'ind',name:'สีทับหน้าโพลียูรีเทน 2 ส่วน กัปตัน',sub:'สีอุตสาหกรรม',solvent:'ทินเนอร์',prices:[{s:'1 ชุด (A+B)',pk:'4 ชุด/กล่อง',n:2400,v:2568}]},
+{tier:'ind',name:'สีอีพ็อกซี่ กัปตัน',sub:'สีอุตสาหกรรม',solvent:'ทินเนอร์',prices:[{s:'1 ชุด (A+B)',pk:'4 ชุด/กล่อง',n:1650,v:1766}]},
+{tier:'ind',name:'สีทาถนน กัปตัน',sub:'สีอุตสาหกรรม',solvent:'น้ำสะอาด',prices:[{s:'5 แกลลอน',pk:'1 ถัง',n:1870,v:2001}]},
+];
+
+let fTier='all';
+function setF(k,v,btn){
+  fTier=v;
+  document.querySelectorAll('#tf .fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+function render(){
+  const q=document.getElementById('q').value.toLowerCase();
+  const order=['ultra','prem','med','eco','spec','chem','wood','ind'];
+  let total=0,html='';
+  for(const tier of order){
+    if(fTier!=='all'&&fTier!==tier) continue;
+    const c=CATS[tier];
+    const prods=P.filter(p=>{
+      if(p.tier!==tier) return false;
+      if(q&&!p.name.toLowerCase().includes(q)&&!p.sub.toLowerCase().includes(q)) return false;
+      return true;
+    });
+    if(!prods.length) continue;
+    total+=prods.length;
+    html+=`<div class="cat-sec"><div class="cat-hdr"><div class="cat-dot ${c.dot}"></div><div class="cat-title">${c.label}</div><div class="cat-cnt">${prods.length} รายการ</div></div><div class="grid">`;
+    for(const p of prods){
+      html+=`<div class="card"><div class="card-top"><span class="tier-pill ${c.pill}">${p.sub.split('·')[0].trim()}</span><div><div class="card-name">${p.name}${p.isNew?'<span class="new-b">NEW</span>':''}</div></div></div><div class="prices">`;
+      for(const pr of p.prices){
+        html+=`<div class="pr"><div><div class="pr-sz">${pr.s}</div><div class="pr-pk">${pr.pk}</div></div><div style="text-align:right"><div class="pr-net">${pr.n.toLocaleString()} <span style="font-size:10px;color:var(--m)">บาท</span></div><div class="pr-vat">+VAT ${pr.v.toLocaleString()}</div></div></div>`;
+      }
+      html+=`</div><div class="card-ft"><span>${p.sub}</span><span>${p.solvent}</span></div></div>`;
+    }
+    html+='</div></div>';
+  }
+  if(!html) html='<div class="empty">ไม่พบสินค้าที่ค้นหา</div>';
+  document.getElementById('ct').innerHTML=html;
+  document.getElementById('st').innerHTML=`แสดง <b>${total}</b> รายการ`;
+}
+render();
+</script>
+</body>
+</html>
