@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ใบราคาสินค้า ปามมาสติก 2569</title>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@300;400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0F1117;--s:#181C27;--s2:#1E2336;--b:#2A2F45;
+  --t:#E8EAF0;--m:#7A809A;--acc:#4F8EF7;
+  --pam:#A78BFA;--pam2:rgba(167,139,250,.12);
+  --r:10px;
+}
+body{font-family:'IBM Plex Sans Thai',sans-serif;background:var(--bg);color:var(--t);min-height:100vh;font-size:14px}
+/* Header */
+.hdr{background:var(--s);border-bottom:1px solid var(--b);padding:16px 24px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:12px}
+.logo-box{background:var(--pam2);border:1px solid rgba(167,139,250,.3);border-radius:8px;padding:6px 12px;font-size:11px;font-weight:600;letter-spacing:.08em;color:var(--pam);text-transform:uppercase}
+.logo h1{font-size:15px;font-weight:500;color:var(--t)}
+.hdr-meta{font-size:11px;color:var(--m);font-family:'IBM Plex Mono',monospace;text-align:right;line-height:1.6}
+/* Layout */
+.wrap{max-width:1280px;margin:0 auto;padding:24px 20px}
+/* Filters */
+.filters{background:var(--s);border:1px solid var(--b);border-radius:var(--r);padding:16px 20px;margin-bottom:20px;display:flex;flex-wrap:wrap;gap:12px;align-items:center}
+.search-box{flex:1;min-width:200px;padding:8px 14px;background:var(--s2);border:1px solid var(--b);border-radius:6px;color:var(--t);font-family:inherit;font-size:13px;outline:none}
+.search-box:focus{border-color:var(--acc)}
+.search-box::placeholder{color:var(--m)}
+.filter-group{display:flex;gap:6px;flex-wrap:wrap}
+.fb{padding:5px 12px;border:1px solid var(--b);border-radius:16px;background:none;color:var(--m);cursor:pointer;font-family:inherit;font-size:12px;transition:all .15s;white-space:nowrap}
+.fb:hover{border-color:var(--pam);color:var(--pam)}
+.fb.on{background:var(--pam2);border-color:var(--pam);color:var(--pam);font-weight:500}
+.sep{width:1px;height:24px;background:var(--b);align-self:center}
+/* Stats bar */
+.stats{display:flex;gap:16px;margin-bottom:16px;font-size:12px;color:var(--m);align-items:center}
+.stat-num{color:var(--t);font-weight:500;font-family:'IBM Plex Mono',monospace}
+/* Category sections */
+.cat-section{margin-bottom:28px}
+.cat-hdr{display:flex;align-items:center;gap:10px;margin-bottom:12px;padding-bottom:10px;border-bottom:1px solid var(--b)}
+.cat-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.cat-title{font-size:14px;font-weight:500;color:var(--t)}
+.cat-count{font-size:11px;color:var(--m);background:var(--s2);padding:2px 8px;border-radius:10px;font-family:'IBM Plex Mono',monospace}
+/* Product cards grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:12px}
+.card{background:var(--s);border:1px solid var(--b);border-radius:var(--r);overflow:hidden;transition:border-color .15s}
+.card:hover{border-color:rgba(167,139,250,.4)}
+.card-hdr{padding:12px 14px 10px;border-bottom:1px solid var(--b);display:flex;align-items:flex-start;gap:8px}
+.card-tier{font-size:10px;font-weight:500;letter-spacing:.06em;padding:2px 7px;border-radius:4px;flex-shrink:0;margin-top:2px;text-transform:uppercase}
+.card-name{font-size:13px;font-weight:500;color:var(--t);line-height:1.4}
+.prices{padding:10px 14px 12px}
+.price-row{display:flex;justify-content:space-between;align-items:center;padding:5px 0;border-bottom:0.5px solid rgba(42,47,69,.5)}
+.price-row:last-child{border-bottom:none}
+.price-size{font-size:12px;color:var(--m)}
+.price-net{font-family:'IBM Plex Mono',monospace;font-size:13px;font-weight:500;color:var(--t)}
+.price-vat{font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--acc)}
+.price-tag{font-size:10px;color:var(--m);margin-top:1px;text-align:right}
+.card-footer{padding:8px 14px;background:var(--s2);display:flex;justify-content:space-between;font-size:11px;color:var(--m)}
+/* tier colors */
+.tier-ultra{background:rgba(167,139,250,.15);color:#A78BFA;border:1px solid rgba(167,139,250,.3)}
+.tier-premium{background:rgba(79,142,247,.12);color:#4F8EF7;border:1px solid rgba(79,142,247,.3)}
+.tier-medium{background:rgba(52,211,153,.1);color:#34D399;border:1px solid rgba(52,211,153,.25)}
+.tier-economy{background:rgba(251,191,36,.1);color:#FBBF24;border:1px solid rgba(251,191,36,.25)}
+.tier-wood{background:rgba(234,88,12,.12);color:#FB923C;border:1px solid rgba(234,88,12,.25)}
+.tier-chem{background:rgba(244,114,182,.1);color:#F472B6;border:1px solid rgba(244,114,182,.25)}
+/* Category dot colors */
+.dot-ultra{background:#A78BFA}
+.dot-premium{background:#4F8EF7}
+.dot-medium{background:#34D399}
+.dot-economy{background:#FBBF24}
+.dot-wood{background:#FB923C}
+.dot-chem{background:#F472B6}
+/* Empty */
+.empty{text-align:center;padding:60px;color:var(--m)}
+/* new badge */
+.new-badge{font-size:9px;background:rgba(248,113,113,.15);color:#F87171;border:1px solid rgba(248,113,113,.3);padding:1px 5px;border-radius:3px;margin-left:4px;vertical-align:middle;letter-spacing:.04em;font-weight:500}
+</style>
+</head>
+<body>
+
+<div class="hdr">
+  <div class="logo">
+    <div class="logo-box">PAMMASTIC</div>
+    <h1>ใบราคาผลิตภัณฑ์ Retail</h1>
+  </div>
+  <div class="hdr-meta">
+    มีผลบังคับใช้: 25 มีนาคม 2569<br>
+    ส่วนลดมาตรฐาน 45% · 7% · 3%
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="filters">
+    <input class="search-box" id="q" placeholder="🔍 ค้นหาชื่อสินค้า รหัส หรือขนาด..." oninput="render()">
+    <div class="sep"></div>
+    <div class="filter-group" id="tier-filters">
+      <button class="fb on" onclick="setTier('all',this)">ทุกกลุ่ม</button>
+      <button class="fb" onclick="setTier('ultra',this)">Ultra Premium</button>
+      <button class="fb" onclick="setTier('premium',this)">Premium</button>
+      <button class="fb" onclick="setTier('medium',this)">Medium</button>
+      <button class="fb" onclick="setTier('economy',this)">Economy</button>
+      <button class="fb" onclick="setTier('wood',this)">งานไม้</button>
+      <button class="fb" onclick="setTier('chem',this)">เคมีก่อสร้าง</button>
+    </div>
+    <div class="sep"></div>
+    <div class="filter-group">
+      <button class="fb on" id="f-all" onclick="setSize('all',this)">ทุกขนาด</button>
+      <button class="fb" onclick="setSize('1gal',this)">1 แกลลอน</button>
+      <button class="fb" onclick="setSize('5gal',this)">5 แกลลอน</button>
+    </div>
+  </div>
+  <div class="stats" id="stats"></div>
+  <div id="content"></div>
+</div>
+
+<script>
+const CATS = {
+  ultra:   {label:'ULTRA PREMIUM',dotCls:'dot-ultra',tierCls:'tier-ultra'},
+  premium: {label:'PREMIUM',dotCls:'dot-premium',tierCls:'tier-premium'},
+  medium:  {label:'MEDIUM',dotCls:'dot-medium',tierCls:'tier-medium'},
+  economy: {label:'ECONOMY',dotCls:'dot-economy',tierCls:'tier-economy'},
+  wood:    {label:'งานไม้ & ทินเนอร์',dotCls:'dot-wood',tierCls:'tier-wood'},
+  chem:    {label:'เคมีก่อสร้าง & แม่สี',dotCls:'dot-chem',tierCls:'tier-chem'},
+};
+
+// product data grouped by name
+const PRODUCTS = [
+  // ===== ULTRA PREMIUM =====
+  {tier:'ultra',name:'สีน้ำปามมาสติก ไพร์มชิลด์ กึ่งเงา',sub:'สีเบอร์',code:'5F00401',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:903,vat:966},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:4336,vat:4640}]},
+  {tier:'ultra',name:'สีน้ำปามมาสติก ไพร์มชิลด์ เนียน',sub:'สีเบอร์',code:'5F00501',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:819,vat:876},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:3937,vat:4213}]},
+  {tier:'ultra',name:'สีน้ำปามมาสติก ไพร์มชิลด์ กึ่งเงา เบส A–D',sub:'สีเบส',code:'5F00402',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน เบส A',pack:'4 กล./กล่อง',net:839,vat:897},
+    {size:'1 แกลลอน เบส B',pack:'4 กล./กล่อง',net:819,vat:876},
+    {size:'1 แกลลอน เบส C',pack:'4 กล./กล่อง',net:769,vat:823},
+    {size:'1 แกลลอน เบส D',pack:'4 กล./กล่อง',net:675,vat:722}]},
+  {tier:'ultra',name:'สีน้ำปามมาสติก อีซี่คลีน ภายในกึ่งเงา',sub:'สีเบอร์',code:'S800403',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:732,vat:783},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:3488,vat:3732}]},
+  {tier:'ultra',name:'สีน้ำปามมาสติก อีซี่คลีน ภายในด้าน',sub:'สีเบอร์',code:'S800303',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:724,vat:775},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:3431,vat:3671}]},
+  {tier:'ultra',name:'สีน้ำทาฝ้าปามมาสติก อีซี่คลีน',sub:'สีเบอร์',code:'S800605',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:682,vat:730},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:3237,vat:3464}]},
+  // ===== PREMIUM =====
+  {tier:'premium',name:'สีกระเบื้องหลังคาปามมาสติก กึ่งเงา',sub:'สีเบอร์',code:'S618701',solvent:'น้ำสะอาด',prices:[
+    {size:'3.5 ลิตร (สีมาตรฐาน)',pack:'4 กล./กล่อง',net:427,vat:457},
+    {size:'3.5 ลิตร (RG401-403)',pack:'4 กล./กล่อง',net:553,vat:592}]},
+  {tier:'premium',name:'สีน้ำทาฝ้าปามมาสติก ด้าน',sub:'สีเบอร์',code:'S600605',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:412,vat:441},
+    {size:'15 ลิตร',pack:'1 ถัง',net:1573,vat:1683}]},
+  {tier:'premium',name:'รองพื้นปูนใหม่ ไพร์มไลม์',sub:'รองพื้น',code:'T700122',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:538,vat:576},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2592,vat:2774}]},
+  {tier:'premium',name:'รองพื้นปูนเก่า เพอร์มาบอนด์',sub:'รองพื้น',code:'T603125',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:509,vat:544},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2441,vat:2612}]},
+  {tier:'premium',name:'รองพื้นปูนใหม่และปูนเก่า สปีดไพรเมอร์',sub:'รองพื้น',code:'8B03139',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:598,vat:640},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2878,vat:3079}]},
+  {tier:'premium',name:'รองพื้นปูนเก่าคลีนไพรเมอร์ สูตรน้ำ',sub:'รองพื้น',code:'S600125',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:494,vat:528},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2327,vat:2490}]},
+  {tier:'premium',name:'รองพื้นแดงกันสนิมปามมาสติก',sub:'รองพื้น',code:'S600727',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:444,vat:475},
+    {size:'15 ลิตร',pack:'1 ถัง',net:1682,vat:1800}]},
+  {tier:'premium',name:'สีเคลือบเงา ซุปเปอร์กลอส',sub:'สีเบอร์',code:'6B00801',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:747,vat:799}]},
+  {tier:'premium',name:'สีเคลือบเงา ซุปเปอร์กลอส เบส A–D',sub:'สีเบส',code:'6B00802',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน เบส A',pack:'4 กล./กล่อง',net:670,vat:717},
+    {size:'1 แกลลอน เบส B',pack:'4 กล./กล่อง',net:588,vat:629},
+    {size:'1 แกลลอน เบส C',pack:'4 กล./กล่อง',net:526,vat:563},
+    {size:'1 แกลลอน เบส D',pack:'4 กล./กล่อง',net:516,vat:552}]},
+  // ===== MEDIUM =====
+  {tier:'medium',name:'สีน้ำ เอ็กซ์ตร้าปามชิลด์ กึ่งเงา',sub:'สีเบอร์',code:'4E00401',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:595,vat:637},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2932,vat:3138}]},
+  {tier:'medium',name:'สีน้ำ เอ็กซ์ตร้าปามชิลด์ ภายนอกด้าน',sub:'สีเบอร์',code:'4E00301',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:509,vat:544},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2396,vat:2564}]},
+  {tier:'medium',name:'สีน้ำ เอ็กซ์ตร้าปามชิลด์ ภายในด้าน',sub:'สีเบอร์',code:'4E00303',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:397,vat:425},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1878,vat:2009}]},
+  {tier:'medium',name:'สีน้ำทาฝ้า เอ็กซ์ตร้าปามชิลด์',sub:'สีเบอร์',code:'4E00605',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:397,vat:425},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1878,vat:2009}]},
+  {tier:'medium',name:'รองพื้นปูนใหม่ เอ็กซ์ตร้าปามชิลด์',sub:'รองพื้น',code:'4E00122',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:452,vat:483},
+    {size:'2.5 แกลลอน',pack:'1 ถัง',net:1089,vat:1165},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2156,vat:2307}]},
+  {tier:'medium',name:'รองพื้นปูนเก่า เอ็กซ์ตร้าปามชิลด์',sub:'รองพื้น',code:'4E03125',solvent:'น้ำสะอาด',prices:[
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2374,vat:2540}]},
+  {tier:'medium',name:'สีน้ำปามไลท์ พลัส นอกกึ่งเงา',sub:'สีเบอร์',code:'5E00401',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:474,vat:507},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2233,vat:2389}]},
+  {tier:'medium',name:'สีน้ำปามไลท์ พลัส ภายนอกด้าน',sub:'สีเบอร์',code:'5E00301',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:340,vat:364},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1588,vat:1699}]},
+  {tier:'medium',name:'สีน้ำปามไลท์ พลัส ภายในด้าน',sub:'สีเบอร์',code:'5E00303',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:260,vat:279},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1198,vat:1282}]},
+  {tier:'medium',name:'สีน้ำทาฝ้า ปามไลท์ พลัส',sub:'สีเบอร์',code:'5E00605',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:260,vat:279},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1198,vat:1282}]},
+  {tier:'medium',name:'สีรองพื้นปูนใหม่ ปามไลท์ พลัส',sub:'รองพื้น',code:'5E00122',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:320,vat:342},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1479,vat:1582}]},
+  {tier:'medium',name:'น้ำยารองพื้นปูนเก่า ปามไลท์ พลัส',sub:'รองพื้น',code:'5E03125',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:382,vat:409},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1764,vat:1887}]},
+  {tier:'medium',name:'สีน้ำ ปามไลท์ นอกกึ่งเงา',sub:'สีเบอร์',code:'S500401',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:427,vat:457},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2009,vat:2150}]},
+  {tier:'medium',name:'สีน้ำ ปามไลท์ ภายนอกด้าน',sub:'สีเบอร์',code:'S500301',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:306,vat:327},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1428,vat:1528}]},
+  {tier:'medium',name:'สีน้ำปามไลท์ ภายในด้าน',sub:'สีเบอร์',code:'S500303',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:233,vat:250},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1079,vat:1155}]},
+  {tier:'medium',name:'สีน้ำทาฝ้า ปามไลท์',sub:'สีเบอร์',code:'S500605',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:225,vat:240},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1039,vat:1112}]},
+  {tier:'medium',name:'สีเคลือบเงา ปามไลท์ ไฮกลอส',sub:'สีเคลือบ',code:'S500801',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:461,vat:494},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:2156,vat:2307}]},
+  {tier:'medium',name:'สีเคลือบด้านปามไลท์ HE222/HE888',sub:'สีเคลือบ',code:'S500901',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'3 ลิตร',pack:'4 กล./กล่อง',net:414,vat:443}]},
+  {tier:'medium',name:'สีรองพื้นปูนใหม่ ปามไลท์',sub:'รองพื้น',code:'S500122',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:288,vat:308},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1330,vat:1423}]},
+  {tier:'medium',name:'น้ำยารองพื้นปูนเก่า ปามไลท์',sub:'รองพื้น',code:'S503125',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:340,vat:364},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1574,vat:1684}]},
+  {tier:'medium',name:'สีรองพื้นเทากันสนิม ปามไลท์',sub:'รองพื้น',code:'S500726',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:288,vat:308},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1320,vat:1412}]},
+  // ===== ECONOMY =====
+  {tier:'economy',name:'สีน้ำ ร็อคเก็ต ภายนอก',sub:'สีน้ำ',code:'T800301',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:184,vat:196},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:786,vat:841}]},
+  {tier:'economy',name:'สีน้ำ ร็อกเก็ต ภายใน',sub:'สีน้ำ',code:'T800303',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:141,vat:151},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:578,vat:618}]},
+  {tier:'economy',name:'สีเคลือบเงา ร็อคเก็ต',sub:'สีเคลือบ',code:'T800801',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:119,vat:127},
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:417,vat:446}]},
+  {tier:'economy',name:'รองพื้นแดงกันสนิม ร็อคเก็ต',sub:'รองพื้น',code:'T800727',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:89,vat:96},
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:308,vat:329},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1449,vat:1550}]},
+  {tier:'economy',name:'รองพื้นเทากันสนิม ร็อกเก็ต',sub:'รองพื้น',code:'T800726',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:89,vat:96},
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:308,vat:329},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:1449,vat:1550}]},
+  {tier:'economy',name:'สีรองพื้นปูนใหม่ ร็อคเก็ต',sub:'รองพื้น',code:'T800122',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'3.5 ลิตร',pack:'4 กล./กล่อง',net:164,vat:175},
+    {size:'17 ลิตร',pack:'1 ถัง',net:769,vat:823}]},
+  {tier:'economy',name:'ROCKET 2in1 RUST TECH FLAT',sub:'NEW',isNew:true,code:'T8O0330',solvent:'—',prices:[
+    {size:'1 แกลลอน #RF100 White Flat',pack:'4 กล./กล่อง',net:588,vat:629},
+    {size:'1 แกลลอน #RF1000 Silver Flat',pack:'4 กล./กล่อง',net:588,vat:629},
+    {size:'1 แกลลอน #RF800 Black Flat',pack:'4 กล./กล่อง',net:506,vat:542}]},
+  {tier:'economy',name:'ROCKET 2in1 RUST TECH GLOSS',sub:'NEW',isNew:true,code:'T8O0320',solvent:'—',prices:[
+    {size:'1 แกลลอน #RG100 White',pack:'4 กล./กล่อง',net:588,vat:629},
+    {size:'1 แกลลอน #RG1000 Silver',pack:'4 กล./กล่อง',net:588,vat:629},
+    {size:'1 แกลลอน #RG200 Red',pack:'4 กล./กล่อง',net:543,vat:581},
+    {size:'1 แกลลอน #RG700-900',pack:'4 กล./กล่อง',net:543,vat:581}]},
+  {tier:'economy',name:'สีน้ำ ร็อกเก็ต99 โปร ภายนอก',sub:'NEW',isNew:true,code:'T800301',solvent:'น้ำสะอาด',prices:[
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:184,vat:196},
+    {size:'5 แกลลอน',pack:'1 ถัง',net:786,vat:841}]},
+  // ===== WOOD =====
+  {tier:'wood',name:'สีย้อมไม้ปามมาสติก เงา',sub:'งานไม้',code:'S606101',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:223,vat:239},
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:826,vat:884}]},
+  {tier:'wood',name:'วานิชเงา ปามมาวาร์',sub:'งานไม้',code:'T407401',solvent:'ทินเนอร์ พี20-05',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:134,vat:143},
+    {size:'1 แกลลอน',pack:'6 กล./กล่อง',net:456,vat:488}]},
+  {tier:'wood',name:'ทินเนอร์ สีเคลือบ #P2005',sub:'ทินเนอร์',code:'S600729',solvent:'—',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:109,vat:117},
+    {size:'1 แกลลอน',pack:'6 กล./กล่อง',net:345,vat:369}]},
+  // ===== CHEM =====
+  {tier:'chem',name:'ปามมาสติก อะครีลิคฟิลเลอร์',sub:'เคมีก่อสร้าง',code:'S612699',solvent:'น้ำสะอาด',prices:[
+    {size:'1/4 แกลลอน',pack:'12 กป./กล่อง',net:117,vat:125},
+    {size:'1 แกลลอน',pack:'4 กล./กล่อง',net:327,vat:350}]},
+  {tier:'chem',name:'ปามมาสติก อะครีลิคซีลแลนท์',sub:'เคมีก่อสร้าง',code:'S612799',solvent:'—',prices:[
+    {size:'1 กิโลกรัม',pack:'12 กป./กล่อง',net:243,vat:260},
+    {size:'4 กิโลกรัม',pack:'4 กล./กล่อง',net:918,vat:982}]},
+  {tier:'chem',name:'ปามมาสติกแม่สี เครื่องผสมสี',sub:'แม่สี',code:'S611831',solvent:'—',prices:[
+    {size:'1 ลิตร #0ST01',pack:'6 กป./กล่อง',net:1218,vat:1304},
+    {size:'1 ลิตร #0ST02',pack:'6 กป./กล่อง',net:3289,vat:3519},
+    {size:'1 ลิตร #0ST03',pack:'6 กป./กล่อง',net:1969,vat:2107},
+    {size:'1 ลิตร #0ST04',pack:'6 กป./กล่อง',net:3201,vat:3425},
+    {size:'1 ลิตร #0ST06–16',pack:'6 กป./กล่อง',net:691,vat:740}]},
+];
+
+let tierFilter='all', sizeFilter='all';
+
+function setTier(v,btn){
+  tierFilter=v;
+  document.querySelectorAll('#tier-filters .fb').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+function setSize(v,btn){
+  sizeFilter=v;
+  document.querySelectorAll('.fb[onclick^="setSize"]').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  render();
+}
+
+function matchSize(p){
+  if(sizeFilter==='all') return true;
+  if(sizeFilter==='1gal') return p.size.includes('1 แกลลอน') && !p.size.includes('เบส');
+  if(sizeFilter==='5gal') return p.size.includes('5 แกลลอน');
+  return true;
+}
+
+function render(){
+  const q = document.getElementById('q').value.toLowerCase();
+  const content = document.getElementById('content');
+  const tierOrder = ['ultra','premium','medium','economy','wood','chem'];
+  let totalShown = 0;
+  let html='';
+
+  for(const tier of tierOrder){
+    if(tierFilter!=='all' && tierFilter!==tier) continue;
+    const cat = CATS[tier];
+    const prods = PRODUCTS.filter(p=>{
+      if(p.tier!==tier) return false;
+      if(q && !p.name.toLowerCase().includes(q) && !p.code.toLowerCase().includes(q) && !p.sub.toLowerCase().includes(q)) return false;
+      if(sizeFilter!=='all'){
+        const hasPrices = p.prices.some(pr=>matchSize(pr));
+        if(!hasPrices) return false;
+      }
+      return true;
+    });
+    if(!prods.length) continue;
+    totalShown += prods.length;
+
+    html+=`<div class="cat-section">
+      <div class="cat-hdr">
+        <div class="cat-dot ${cat.dotCls}"></div>
+        <div class="cat-title">${cat.label}</div>
+        <div class="cat-count">${prods.length} รายการ</div>
+      </div>
+      <div class="grid">`;
+
+    for(const p of prods){
+      const prices = sizeFilter==='all' ? p.prices : p.prices.filter(matchSize);
+      html+=`<div class="card">
+        <div class="card-hdr">
+          <span class="card-tier ${cat.tierCls}">${p.sub}</span>
+          <div>
+            <div class="card-name">${p.name}${p.isNew?'<span class="new-badge">NEW</span>':''}</div>
+          </div>
+        </div>
+        <div class="prices">`;
+      for(const pr of prices){
+        html+=`<div class="price-row">
+          <div><div class="price-size">${pr.size}</div><div style="font-size:10px;color:var(--m)">${pr.pack}</div></div>
+          <div style="text-align:right">
+            <div class="price-net">${pr.net.toLocaleString()} <span style="font-size:10px;color:var(--m)">บาท</span></div>
+            <div class="price-vat">+VAT ${pr.vat.toLocaleString()}</div>
+          </div>
+        </div>`;
+      }
+      html+=`</div>
+        <div class="card-footer">
+          <span>${p.code}</span>
+          <span>${p.solvent}</span>
+        </div>
+      </div>`;
+    }
+    html+='</div></div>';
+  }
+
+  if(!html) html='<div class="empty">ไม่พบสินค้าที่ค้นหา</div>';
+  content.innerHTML = html;
+  document.getElementById('stats').innerHTML=`แสดง <span class="stat-num">${totalShown}</span> รายการ`;
+}
+
+render();
+</script>
+</body>
+</html>
